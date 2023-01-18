@@ -1,0 +1,55 @@
+$phone: 480px;
+$tablet: 768px;
+
+h1 {
+  margin: 20px 0 0 0;
+  font-weight: bold;
+  @media screen and (max-width: $tablet) {
+    margin: 20px 0;
+  }
+}
+.tabs{
+  padding-block: 10px;
+}
+
+.tab-list {
+  border-bottom: 1px solid #ccc;
+  padding-left: 0;
+}
+
+.tab-list-item {
+  display: inline-block;
+  list-style: none;
+  margin-bottom: -1px;
+  padding: 1rem 0.75rem;
+  cursor: pointer;
+}
+
+.tab-list-active {
+  background-color: white;
+  border: solid #ccc;
+  border-width: 1px 1px 0 1px;
+}
+.tab-content {
+  width: 90%;
+  margin: auto;
+  margin-bottom: 60px !important;
+  font-size: 20px;
+  letter-spacing: 1px;
+  line-height: 50px;
+  text-align: left;
+  padding-top: 30px;
+  @media screen and (max-width: $phone) {
+    font-size: 16px;
+    line-height: 30px;
+  }
+}
+.mission_Principle {
+  width: 100%;
+  line-height: 5rem;
+  padding: 20px;
+  background: rgb(172, 214, 126);
+  p {
+    width: 80%;
+  }
+}
