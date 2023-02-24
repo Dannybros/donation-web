@@ -1,0 +1,9 @@
+.img_box{
+  display: grid;
+  place-items: center;
+}
+.QR_IMG{
+  width: 50%;
+  aspect-ratio: 2/3;
+  object-fit: contain;        
+}

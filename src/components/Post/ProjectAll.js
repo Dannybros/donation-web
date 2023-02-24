@@ -5,8 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import hero from '../../img/hero.jpg'
 import axios from '../../axios/axios'
 import { useTranslation } from 'react-i18next';
-import Donation2 from  '../Donation/Payment/Donation2';
-import ShadyBG from '../Donation/ShadyBG';
+import Donation2 from  '../Donation/Donation2';
 import {Helmet} from "react-helmet-async";
 import Item from '../Home/Cases/Carousel/Item'
 
@@ -15,7 +14,7 @@ function DonationPage() {
     const {t} = useTranslation();
     
     const [data, setData] = useState([]);
-    const [bg, setBg] = useState(false);
+    const [modalShow, setModalShow] = useState(false);
 
     useEffect(() => {
         const fetchData = async()=>{
@@ -27,25 +26,18 @@ function DonationPage() {
         fetchData();
     }, [])
 
-    const goToDonationSite=()=>{
-        setBg(true)
-    }
+    const openModal=()=>setModalShow(true)
 
-    const closeDonation=(variant)=>{
-        setBg(Boolean(variant));
-    }
+    const closeModal=()=>setModalShow(false)
 
     return (
         <div className="donation_discover">
             <Helmet>
-            <title>{t('Project.title')}</title>
+                <title>{t('Project.title')}</title>
             </Helmet>
-            {bg&&
-                <>
-                <Donation2 name={data?.title} id="" click={closeDonation}/>
-                <ShadyBG click={()=>setBg(false)}/>
-                </>
-            }
+
+            <Donation2 state={modalShow} close={closeModal}/>
+
             <Container className="discover-heading-section">
                 <Row className='discover-row'>
                     <Col lg={12}>
@@ -70,7 +62,7 @@ function DonationPage() {
                             <p>
                                 {t('Donation.pageAll.titleDes')}
                             </p>
-                            <button onClick={goToDonationSite}>
+                            <button onClick={openModal}>
                                 {t('Donation.item.button')}
                             </button>
                         </div>

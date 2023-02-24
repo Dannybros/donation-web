@@ -38,7 +38,7 @@ function HeroBoot() {
             >
                 <Carousel.Caption className='hero__msg'>
                     <h1 style={{marginBottom: "10px !important"}}>
-                        {t('Home.Hero.heading1')}
+                        {t('Home.Hero.heading2')}
                     </h1>
                     <button onClick={()=>history.push('/discover')}>
                         <span className="green"> 

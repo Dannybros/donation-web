@@ -43,7 +43,7 @@ function Nav() {
             <img src={logo} className="logoImg" alt="logo" onClick={()=>history.replace('/')}/>
             <ul className="nav-list">
                 <li>
-                    <NavLink to="/Home" className="nav__li" activeClassName='active'>
+                    <NavLink to="/" className="nav__li" activeClassName='active'>
                         {t('Home.nav.list1')}
                     </NavLink>
                     </li>
@@ -63,12 +63,6 @@ function Nav() {
                         {t('Home.nav.list2')}
                     </NavLink>
                 </li>
-                {/* <li>
-                    <NavLink to="/Benefits" className="nav__li" activeClassName='activeLink'>
-                        {t('Benefits.title')}
-                    </NavLink>
-                </li>
-                 */}
             </ul>
             <div className="LangSelector-box" key ={language}>
                 <select className="LangSelector" value={lang? lang: "en"} onChange={changeLang}>

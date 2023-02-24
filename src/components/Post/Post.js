@@ -6,56 +6,39 @@ import PaymentIcon from '@mui/icons-material/Payment';
 import {useHistory, useParams} from 'react-router-dom'
 import axios from '../../axios/axios';
 import { useTranslation } from 'react-i18next';
-import ShadyBG from '../Donation/ShadyBG';
-import Donation2 from  '../Donation/Payment/Donation2';
+import Donation from '../Donation/Donation';
 import {Helmet} from 'react-helmet-async'
 
 function Post() {
 
     const history = useHistory();
+    const {id} = useParams();
 
     const {t, i18n} = useTranslation();
-
     const [data, setData] = useState();
-
-    const [bg, setBg] = useState(false);
-
-    const imgArr=[];
-
     const [loading, setLoading] = useState(false);
-    const {id} = useParams();
+    const [modalShow, setModalShow] = useState(false);
+
+    const handleClose = () => setModalShow(false);
+    const handleShow = () => setModalShow(true);
     
     useEffect(() => {
         window.scrollTo(0, 0);
-            const fetchData = async()=>{
-                setLoading(false);
-        
+        const fetchData = async()=>{
+            setLoading(false);
                 await axios.get(`/cases/get/${id}`)
-                    .then(res=>setData(res.data[0]))
-                    .catch(err=>history.push('/*'))
+                .then(res=>setData(res.data[0]))
+                .catch(err=>history.push('/*'))
+
+            setLoading(true);
+        }
     
-                setLoading(true);
-            }
-        
-            fetchData();
+        fetchData();
 
     }, [history, id])
-
-    const goDonation =()=>{
-        setBg(true)
-    }
-
-    const addImg=()=>{
-        for(var k=1; k<data?.img.length; k++){
-            imgArr.push(data.img[k])
-        }
-    }
     
-    const closeDonation=()=>{
-        setBg(false);
-    }
+    function textIntoSentences(data) {
 
-    const ShowContent=()=>{
         let content ='';
 
         if(i18n.language==="zh"){
@@ -66,31 +49,33 @@ function Post() {
             content =data?.content[i18n.language]
         }
 
-        let array =[];
-        const NumImg = imgArr.length;
-        const para =content?.match(/([^\\.!\\?]+[\\.!\\?]+)|([^\\.!\\?]+$)/g);
-        const paraLength = para?.length;
-        const totalSection = parseInt(paraLength / NumImg) +1;
-    
-        for(let j=0; j<NumImg; j++){
-            array.push(
-                <div key={j} className="post_content">  
-                        {Array(totalSection).fill().map((_, idx)=>(
-                            <p key={idx}>{para[(j * totalSection) + idx]} </p>
-                        ))}
-                        <br/>
-                        <img src={imgArr[j]} alt="" style={{width:'80%', height:'300px' }}/>
-                        <br/>
-                </div>
-            )
-        }
+        return content.split(/[.!?]+/).map(sentence => sentence.trim()).filter(sentence => sentence !== "").map(sentence => sentence + ".");
+    }
 
-        return(<div>{array}</div>)
+    function DivideSentences() {
+        const sentences = textIntoSentences(data)
+        const images = data?.img;
+        let paragraphs = [];
+        let sentencesPerParagraph = Math.ceil(sentences.length / images.length);
+
+        for (let i = 0; i < sentences.length; i += sentencesPerParagraph) {
+            paragraphs.push(sentences.slice(i, i + sentencesPerParagraph));
+        }
+        return (
+            <section className='post_content'>
+            {paragraphs.map((paragraph, index) => (
+                <div key={index}>
+                {paragraph.map(sentence => (
+                    <p key={sentence}>{sentence}</p>
+                ))}
+                {index < paragraphs.length - 1 && <img src={images[index+1]} alt={`img${index}`} style={{marginBottom:"3vmin"}}/>}
+                </div>
+            ))}
+            </section>
+        );
     }
 
     const percentage = Math.ceil((data?.reach * 100 / data?.goal))
-
-    addImg(); 
     
     return (
         <div className="post">
@@ -100,15 +85,9 @@ function Post() {
         {loading ? 
             <>            
             <div className="post_container">
-                {bg&&
-                    <>
-                    <Donation2 name={data?.title} click={closeDonation}/>
-                    <ShadyBG click={()=>setBg(false)}/>
-                    </>
-                }
+                <Donation state={modalShow} close={handleClose}/>
                 <div className="post_blog_box">
                     <div className="post_content_info">
-                    {/* all the news and blog content */}
 
                         {/* blog title and main image */}
                         <img src={data?.img[0]} className="mainImg" alt="main"/>
@@ -118,7 +97,7 @@ function Post() {
 
                         {/* blog info for tablet and phone view */}
                         <div className="donation_view">
-                            <button onClick={goDonation}>
+                            <button onClick={handleShow}>
                                 <PaymentIcon className='btnicon'/>
                                 {t('Donation.pageAll.button1')}
                             </button>
@@ -147,9 +126,9 @@ function Post() {
                         </div>
 
                         {/* blog content */}
-                        <ShowContent/>
+                        <DivideSentences/>
 
-                        <button onClick={goDonation}>
+                        <button onClick={handleShow}>
                             {t('Donation.item.button')}
                         </button>       
                     </div>
@@ -157,7 +136,7 @@ function Post() {
                     {/* blog info for pc and laptop */}
                     <div className="post_donation">
                         <div className='post_donation_info'>
-                            <button onClick={goDonation}>
+                            <button onClick={handleShow}>
                                 <PaymentIcon className='btnicon'/>
                                 {t('Donation.pageAll.button1')}
                             </button>
@@ -173,6 +152,7 @@ function Post() {
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
             </>

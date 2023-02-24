@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {BrowserRouter as Router, Switch, Route, Redirect} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import './locales/i18n';
 import { Benefits,  Nav, Post, Footer, AboutUs, NewsPage, NewsDetail, DonationPage, Home} from './components/Import.js'
 import ErrorPage from './Reducer/ErrorPage'
 import {HelmetProvider } from 'react-helmet-async';
 import TestPaypal from "./testPaypal";
-import PaymentSuccess from "./components/Donation/Payment/PaymentSuccess";
+import PaymentSuccess from "./components/Donation/PaymentSuccess";
 import { useStateValue } from "./Reducer/StateProvider";
 
 function App() {
@@ -57,22 +57,15 @@ function App() {
             <Post/>
           </Route>
           
-          <Route exact path ="/Home">
-            <Home/>
-            <Footer/>
-          </Route>
-
           <Route path ="/test2">
             <TestPaypal/>
           </Route>
+          
+          <Route exact path ="/">
+            <Home/>
+            <Footer/>
+          </Route>
     
-          <Route exact path ="/"
-            render={()=>{
-              return(
-                <Redirect to="/Home"/>
-              )
-            }}
-          />
           <Route path ="*" status="404">
             <ErrorPage/>
           </Route>
