@@ -18,8 +18,23 @@ function Donation(props) {
                 Please Scan The QR Code To Contact Us
             </Modal.Title>
         </Modal.Header>
-        <Modal.Body className='img_box'>
-            <img src={QR} className="QR_IMG" alt="qr"/>
+        <Modal.Body className='img_group'>
+            <div className='img_box'>
+                <p>Telegram</p>
+                <img src={QR} className="QR_IMG" alt="qr"/>
+            </div>
+            <div className='img_box'>
+                <p>Telegram</p>
+                <img src={QR} className="QR_IMG" alt="qr"/>
+            </div>
+            <div className='img_box'>
+                <p>Telegram</p>
+                <img src={QR} className="QR_IMG" alt="qr"/>
+            </div>
+            <div className='img_box'>
+                <p>Telegram</p>
+                <img src={QR} className="QR_IMG" alt="qr"/>
+            </div>
         </Modal.Body>
     </Modal>
   )

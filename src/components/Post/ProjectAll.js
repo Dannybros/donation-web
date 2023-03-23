@@ -5,7 +5,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import hero from '../../img/hero.jpg'
 import axios from '../../axios/axios'
 import { useTranslation } from 'react-i18next';
-import Donation2 from  '../Donation/Donation2';
+import Donation from  '../Donation/Donation';
 import {Helmet} from "react-helmet-async";
 import Item from '../Home/Cases/Carousel/Item'
 
@@ -36,7 +36,7 @@ function DonationPage() {
                 <title>{t('Project.title')}</title>
             </Helmet>
 
-            <Donation2 state={modalShow} close={closeModal}/>
+            <Donation state={modalShow} close={closeModal}/>
 
             <Container className="discover-heading-section">
                 <Row className='discover-row'>
@@ -74,6 +74,7 @@ function DonationPage() {
                             {t('Donation.pageAll.heading4')}
                         </h3>
                     </Col>
+                    <div>
                     {/* {data?.map((item)=>{
                         const percentage =getPercentage(item.reach, item.goal)
                         return(
@@ -113,19 +114,19 @@ function DonationPage() {
                             </Col>
                         )
                     })} */}
-
+                    </div>
                     {data.map((item)=>{
                         return(
-                            <Col lg={4} key={item._id}>
-                                <Item
-                                    title={item.title} 
-                                    current={item.reach} 
-                                    goal={item.goal} 
-                                    des={item.content} 
-                                    img={item.img[0]} 
-                                    id={item._id}
-                                />
-                            </Col>
+                        <Col lg={4} key={item._id}>
+                            <Item
+                                title={item.title} 
+                                current={item.reach} 
+                                goal={item.goal} 
+                                des={item.content} 
+                                img={item.img[0]} 
+                                id={item._id}
+                            />
+                        </Col>
                         )
                     })}
                 </Row>
