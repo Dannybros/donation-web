@@ -1,12 +1,11 @@
 import React, {useState, useEffect} from "react";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom"
 import './locales/i18n';
-import { Benefits,  Nav, Post, Footer, AboutUs, NewsPage, NewsDetail, DonationPage, Home} from './components/Import.js'
-import ErrorPage from './Reducer/ErrorPage'
+import { Nav, Post, AboutUs, BrowseNews, NewsList, NewsDetail, DonationPage, Home} from './components/Import.js'
+import ErrorPage from './components/ErrorPage'
 import {HelmetProvider } from 'react-helmet-async';
-import TestPaypal from "./testPaypal";
-import PaymentSuccess from "./components/Donation/PaymentSuccess";
 import { useStateValue } from "./Reducer/StateProvider";
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
   const [{language}] = useStateValue();
@@ -14,64 +13,43 @@ function App() {
   const [font, setFont] = useState();
 
   useEffect(() => {
-   if(language==="en") setFont("Times New Roman");
-   if(language==="ko") setFont("BatangChe");
-   if(language==="zh") setFont("SimHei");
+    switch (language) {
+      case "en":
+        setFont("Times New Roman");
+        break;
+      case "ko":
+        setFont("BatangChe");
+        break;
+      case "zh":
+        setFont("SimHei");
+        break;
+      default:
+        setFont(null);
+    }
   }, [language])
   
   return (
     <HelmetProvider>
-    <Router>
       <div className="App" style={{fontFamily:font}}>
         <Nav/>
-
-        <Switch>
-          <Route path ='/benefits' >
-            <Benefits/>
-            <Footer/>
+        <Routes>
+          <Route path="/" element={<Home/>} />
+          <Route path="/news">
+            <Route index element={<BrowseNews />} />
+            <Route path=":id" element={<NewsDetail />} />
+            <Route path="list/:param" element={<NewsList/>} />
           </Route>
-
-          <Route path ="/discover">
-            <DonationPage/>
-            <Footer/>
+          <Route path="/project">
+            <Route index element={<DonationPage />} />
+            <Route path=":id*" element={<Post />} />
           </Route>
-
-          <Route path ="/news/detail/:id">
-            <NewsDetail/>
-          </Route>
-
-          <Route path ="/news">
-            <NewsPage/>
-          </Route>
-
-          <Route path ="/aboutUs">
-            <AboutUs/>
-            <Footer/>
-          </Route>
-          
-          <Route path = "/donation/success">
-            <PaymentSuccess/>
-          </Route>
-
-          <Route path ="/postBlog/:id*">
-            <Post/>
-          </Route>
-          
-          <Route path ="/test2">
-            <TestPaypal/>
-          </Route>
-          
-          <Route exact path ="/">
-            <Home/>
-            <Footer/>
-          </Route>
-    
-          <Route path ="*" status="404">
-            <ErrorPage/>
-          </Route>
-        </Switch>
+          <Route path="/about-us" element={<AboutUs/>} />  
+          <Route path="/news/*" element={<Navigate to="/404" />} />
+          <Route path="/project/*" element={<Navigate to="/404" />} />
+          <Route path="*" element={<Navigate to="/404" />} />
+          <Route path="/404" element={<ErrorPage />} />
+        </Routes>
       </div>
-    </Router>
     </HelmetProvider>
   );
 }

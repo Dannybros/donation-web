@@ -3,6 +3,7 @@ import Tabs from "./Tabs";
 import './ABout.scss'
 import { useTranslation } from 'react-i18next';
 import {Helmet} from 'react-helmet-async';
+import Footer from '../Footer/Footer';
 
 function AboutUs() {
 
@@ -43,8 +44,7 @@ function AboutUs() {
     }, [t])
 
     return (
-        <div>
-            {/* <h1>{t('About_Us.heading')}</h1> */}
+        <div className="mt-3">
             <Tabs> 
                 <div label={t('About_Us.tab1.title')} >
                     <Helmet>
@@ -61,6 +61,7 @@ function AboutUs() {
                     </div>
                 </div> 
             </Tabs> 
+            <Footer/>
         </div>
     )
 }

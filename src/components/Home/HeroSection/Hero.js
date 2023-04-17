@@ -3,11 +3,11 @@ import {Carousel} from 'react-bootstrap'
 import img1 from '../../../img/hero.jpg'
 import img2 from '../../../img/hero2.jpg'
 import './Hero.scss'
-import {useHistory} from 'react-router-dom'
+import {useNavigate} from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
 
 function HeroBoot() {
-    const history = useHistory();
+    const navigate = useNavigate();
     const {t} = useTranslation();
 
     return (
@@ -22,7 +22,7 @@ function HeroBoot() {
                     <h1 style={{marginBottom: "10px !important"}}>
                         {t('Home.Hero.heading1')}
                     </h1>
-                    <button onClick={()=>history.push('/discover')}>
+                    <button onClick={()=>navigate('/project')}>
                         <span className="green"> 
                             {t('Home.Hero.button')}
                         </span>
@@ -40,7 +40,7 @@ function HeroBoot() {
                     <h1 style={{marginBottom: "10px !important"}}>
                         {t('Home.Hero.heading2')}
                     </h1>
-                    <button onClick={()=>history.push('/discover')}>
+                    <button onClick={()=>navigate('/project')}>
                         <span className="green"> 
                             {t('Home.Hero.button')}
                         </span>

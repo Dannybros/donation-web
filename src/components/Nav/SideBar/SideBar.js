@@ -1,11 +1,11 @@
 import React from 'react'
 import './sideBar.css'
 import logo from '../../../img/logo/ReLogo.png'
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 
 function SideBar(props) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const {t, i18n}= useTranslation()
 
@@ -23,20 +23,19 @@ function SideBar(props) {
     }
     
     const goToAboutUs=()=>{
-        history.push('/aboutus');
+        navigate('/about-us');
         localStorage.setItem('about', 'OverView')
     }
 
     return (
         <nav className={sidebarclass}>
-            <img src={logo} alt="logo" onClick={()=>history.replace('/')}/>
+            <img src={logo} alt="logo" onClick={()=>navigate('/')}/>
             
             <ul>
-                <li onClick={()=>history.replace('/')}>{t('Home.nav.list1')}</li>
+                <li onClick={()=>navigate('/')}>{t('Home.nav.list1')}</li>
                 <li onClick={goToAboutUs}>{t('Home.nav.list2')}</li>
-                <li onClick={()=>history.push('/news')}>{t('Home.nav.list3')}</li>
-                <li onClick={()=>history.push('/discover')}>{t('Home.nav.list4')}</li>
-                {/* <li onClick={()=>history.push('/benefits')}>{t('Benefits.title')}</li> */}
+                <li onClick={()=>navigate('/news')}>{t('Home.nav.list3')}</li>
+                <li onClick={()=>navigate('/project')}>{t('Home.nav.list4')}</li>
             </ul>
             <div className="LangSelect-box">
                 <select className="LangSelect" value={lang? lang: "en"} onChange={changeLang}>

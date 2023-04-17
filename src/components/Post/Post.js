@@ -1,22 +1,23 @@
 import React, {useState, useEffect} from 'react'
 import './Post.scss'
-import {Spinner} from 'react-bootstrap';
+import axios from '../../axios/axios';
+import Donation from '../Donation/Donation';
 import SyncIcon from '@mui/icons-material/Sync';
 import PaymentIcon from '@mui/icons-material/Payment';
-import {useHistory, useParams} from 'react-router-dom'
-import axios from '../../axios/axios';
+import {Spinner} from 'react-bootstrap';
+import {useNavigate, useParams} from 'react-router-dom'
 import { useTranslation } from 'react-i18next';
-import Donation from '../Donation/Donation';
 import {Helmet} from 'react-helmet-async'
+import Footer from '../Footer/Footer';
 
 function Post() {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const {id} = useParams();
 
     const {t, i18n} = useTranslation();
     const [data, setData] = useState();
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [modalShow, setModalShow] = useState(false);
 
     const handleClose = () => setModalShow(false);
@@ -25,145 +26,108 @@ function Post() {
     useEffect(() => {
         window.scrollTo(0, 0);
         const fetchData = async()=>{
-            setLoading(false);
+            setLoading(true);
                 await axios.get(`/cases/get/${id}`)
                 .then(res=>setData(res.data[0]))
-                .catch(err=>history.push('/*'))
+                .catch(err=>navigate('/404'))
 
-            setLoading(true);
+            setLoading(false);
         }
     
         fetchData();
 
-    }, [history, id])
+    }, [navigate, id])
     
-    function textIntoSentences(data) {
 
-        let content ='';
-
-        if(i18n.language==="zh"){
-
-            const contentComma = data?.content.zh.replace(/，/ig, `,`)
-            content = contentComma.replace(/。/ig, '.')
-        }else{
-            content =data?.content[i18n.language]
-        }
-
+    function textIntoSentences(content) {
         return content.split(/[.!?]+/).map(sentence => sentence.trim()).filter(sentence => sentence !== "").map(sentence => sentence + ".");
     }
+      
 
     function DivideSentences() {
-        const sentences = textIntoSentences(data)
-        const images = data?.img;
+        const sentences = textIntoSentences(data.content.en);
+        const numImages = data.img.length;
+        let sentencesPerParagraph = Math.ceil(sentences.length / (numImages + 1));
+        
         let paragraphs = [];
-        let sentencesPerParagraph = Math.ceil(sentences.length / images.length);
-
         for (let i = 0; i < sentences.length; i += sentencesPerParagraph) {
             paragraphs.push(sentences.slice(i, i + sentencesPerParagraph));
         }
+
         return (
             <section className='post_content'>
             {paragraphs.map((paragraph, index) => (
-                <div key={index}>
-                {paragraph.map(sentence => (
-                    <p key={sentence}>{sentence}</p>
-                ))}
-                {index < paragraphs.length - 1 && <img src={images[index+1]} alt={`img${index}`} style={{marginBottom:"3vmin"}}/>}
-                </div>
+                <main key={index}>
+                    <p>
+                    {paragraph.map(sentence => (
+                        <span key={sentence}>{sentence}</span>
+                    ))}
+                    </p>
+                    {index < numImages-1 && <img className='mb-3' src={data.img[index+1]} alt={`img${index+1}`}/>}
+                </main>
             ))}
             </section>
         );
     }
 
-    const percentage = Math.ceil((data?.reach * 100 / data?.goal))
-    
-    return (
-        <div className="post">
-        <Helmet>
-          <title>Project Post</title>
-        </Helmet>
-        {loading ? 
-            <>            
-            <div className="post_container">
-                <Donation state={modalShow} close={handleClose}/>
-                <div className="post_blog_box">
-                    <div className="post_content_info">
-
-                        {/* blog title and main image */}
-                        <img src={data?.img[0]} className="mainImg" alt="main"/>
-                        <h1 className="post_title">
-                            {data?.title[i18n.language]}
-                        </h1>
-
-                        {/* blog info for tablet and phone view */}
-                        <div className="donation_view">
-                            <button onClick={handleShow}>
-                                <PaymentIcon className='btnicon'/>
-                                {t('Donation.pageAll.button1')}
-                            </button>
-                        </div>
-                        
-                        <div className='project___percentage tablet-show'>
-                            <div className='percentage_box'/>
-                            <div className='percentage_progress' style={{width:`${percentage}%`}}/>
-                            <div className='percentage_teller' style={{
-                                left:`${percentage}%`, 
-                                transform:`translate(-${percentage}%, -50%)`
-                            }}>
-                                {percentage} %
-                            </div>
-                        </div>
-
-                        {/* blog created Date */}
-                        <div className="post_date">
-                            <span>
-                                {t('Donation.post.BBD', {date:'5'})}
-                            </span>
-                            <div onClick={()=>history.push('/discover')}>
-                                <SyncIcon/>
-                                {t('Donation.post.view2')}
-                             </div>
-                        </div>
-
-                        {/* blog content */}
-                        <DivideSentences/>
-
-                        <button onClick={handleShow}>
-                            {t('Donation.item.button')}
-                        </button>       
-                    </div>
-
-                    {/* blog info for pc and laptop */}
-                    <div className="post_donation">
-                        <div className='post_donation_info'>
-                            <button onClick={handleShow}>
-                                <PaymentIcon className='btnicon'/>
-                                {t('Donation.pageAll.button1')}
-                            </button>
-                            <div className='project___percentage'>
-                                <div className='percentage_box'/>
-                                <div className='percentage_progress' style={{width:`${percentage}%`}}/>
-                                <div className='percentage_teller' style={{
-                                    left:`${percentage}%`, 
-                                    transform:`translate(-${percentage}%, -50%)`
-                                }}>
-                                    {percentage} %
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            </>
-            : 
+    if(loading){
+        return(
             <div className='post_spinner'>
                 <Spinner variant='dark' animation='border'/>
             </div>
-        }
-           
-            
-        </div>
+        )
+    }
+    
+    return (
+        <>
+        <Helmet>
+        <title>Project Post</title>
+        </Helmet>        
+        <section className="post_container">
+            <Donation state={modalShow} close={handleClose}/>
+            <main className="post_content_info">
+                {/* blog title and main image */}
+                <img src={data?.img[0]} className="mainImg" alt="main"/>
+                <h1 className="post_title mb-3">
+                    {data?.title[i18n.language]}
+                </h1>
+
+                {/* blog info for tablet and phone view */}
+                <div className="donation_view">
+                    <button onClick={handleShow}>
+                        <PaymentIcon className='btnicon'/>
+                        {t('Donation.pageAll.button1')}
+                    </button>
+                </div>
+
+                <div className="post_date">
+                    <span>
+                        {t('Donation.post.BBD', {date:data.createdAt.split("T")[0]})}
+                    </span>
+                    <div onClick={()=>navigate('/discover')}>
+                        <SyncIcon/>
+                        {t('Donation.post.view2')}
+                        </div>
+                </div>
+
+                <DivideSentences/>
+                
+                <button onClick={handleShow}>
+                    {t('Donation.item.button')}
+                </button>       
+            </main>
+
+            <main className="post_donation">
+                <figure className='post_donation_info'>
+                    <button onClick={handleShow}>
+                        <PaymentIcon className='btnicon'/>
+                        {t('Donation.pageAll.button1')}
+                    </button>
+                </figure>
+            </main>
+        </section>
+        <Footer/>
+        </>
     )
 }
 

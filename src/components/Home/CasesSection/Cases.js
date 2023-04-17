@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
-import Simple from './Carousel/Carousel'
 import './cases.scss'
+import Simple from '../../Carousel/Carousel'
 import axios from '../../../axios/axios'
 import { useStateValue } from "../../../Reducer/StateProvider";
 import { useTranslation } from 'react-i18next';

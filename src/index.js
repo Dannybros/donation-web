@@ -1,16 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import App from './App';
+import { BrowserRouter } from "react-router-dom"
 import { StateProvider } from './Reducer/StateProvider';
 import reducer, { initialState } from './Reducer/reducer';
 
 ReactDOM.render(
   <React.StrictMode>
-    <StateProvider initialState={initialState} reducer={reducer}>
-        <App />
-    </StateProvider>
+    <BrowserRouter>
+      <StateProvider initialState={initialState} reducer={reducer}>
+          <App />
+      </StateProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById('root')
 );

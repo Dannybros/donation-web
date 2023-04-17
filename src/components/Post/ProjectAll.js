@@ -1,13 +1,13 @@
 import React, {useState, useEffect} from 'react'
 import './ProjectAll.scss'
-import {Container, Row, Col} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import hero from '../../img/hero.jpg'
 import axios from '../../axios/axios'
-import { useTranslation } from 'react-i18next';
 import Donation from  '../Donation/Donation';
+import Item from '../Carousel/Item'
+import {Container, Row, Col} from 'react-bootstrap';
+import { useTranslation } from 'react-i18next';
 import {Helmet} from "react-helmet-async";
-import Item from '../Home/Cases/Carousel/Item'
+import Footer from '../Footer/Footer';
 
 function DonationPage() {
 
@@ -52,29 +52,26 @@ function DonationPage() {
             </Container>
 
             <div className="discover-content-section">
-                <div className="donate__all__section">
+                <main className="donate__all__section">
                     <h1>
                         {t('Donation.pageAll.title')}
                     </h1>
-                    <div className='overall___content'>
+                    <figure className='overall___content'>
                         <img src={hero} alt=""/>
                         <div>
-                            <p>
-                                {t('Donation.pageAll.titleDes')}
-                            </p>
+                            <p> {t('Donation.pageAll.titleDes')} </p>
                             <button onClick={openModal}>
                                 {t('Donation.item.button')}
                             </button>
                         </div>
-                    </div>
-                </div>
+                    </figure>
+                </main>
                 <Row className='discover-content-box'>
                     <Col lg={12} className="discover___heading4">
                         <h3>
                             {t('Donation.pageAll.heading4')}
                         </h3>
                     </Col>
-                    <div>
                     {/* {data?.map((item)=>{
                         const percentage =getPercentage(item.reach, item.goal)
                         return(
@@ -114,9 +111,8 @@ function DonationPage() {
                             </Col>
                         )
                     })} */}
-                    </div>
                     {data.map((item)=>{
-                        return(
+                    return(
                         <Col lg={4} key={item._id}>
                             <Item
                                 title={item.title} 
@@ -127,11 +123,11 @@ function DonationPage() {
                                 id={item._id}
                             />
                         </Col>
-                        )
-                    })}
+                    )})}
                 </Row>
             </div>
-            
+
+            <Footer/>
         </div>
     )
 }

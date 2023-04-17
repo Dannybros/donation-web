@@ -1,16 +1,14 @@
 import React, {useState} from 'react'
 import './nav.css'
 import logo from '../../img/logo/logo3.png'
-import ToggleButton from './SideBar/ToggleButton'
 import SideBar from './SideBar/SideBar';
-import Backdrop from './Backdrop/Backdrop';
-import {useHistory, NavLink} from 'react-router-dom';
+import {useNavigate, Link} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 import { useStateValue } from '../../Reducer/StateProvider';
 
 function Nav() {
 
-    const history = useHistory();
+    const navigate = useNavigate();
     const [{language}, dispatch] = useStateValue();
 
     const {t, i18n} = useTranslation();
@@ -40,28 +38,28 @@ function Nav() {
 
     return (
         <div className="nav">
-            <img src={logo} className="logoImg" alt="logo" onClick={()=>history.replace('/')}/>
+            <img src={logo} className="logoImg" alt="logo" onClick={()=>navigate('/')}/>
             <ul className="nav-list">
                 <li>
-                    <NavLink to="/" className="nav__li" activeClassName='active'>
+                    <Link to="/" className="nav__li" activeClassName='active'>
                         {t('Home.nav.list1')}
-                    </NavLink>
-                    </li>
-                <li>
-                    <NavLink to="/discover" className="nav__li" activeClassName='activeLink'>
-                        {t('Home.nav.list4')}
-                    </NavLink>
+                    </Link>
                 </li>
                 <li>
-                    <NavLink to="/news" className="nav__li" activeClassName='activeLink'>
+                    <Link to="/project" className="nav__li" activeClassName='activeLink'>
+                        {t('Home.nav.list4')}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/news" className="nav__li" activeClassName='activeLink'>
                         {t('Home.nav.list3')}
-                    </NavLink>
+                    </Link>
                 </li>
                 
                 <li onClick={goToAboutUs}>
-                    <NavLink to="/aboutUs" className="nav__li" activeClassName='activeLink'>
+                    <Link to="/about-us" className="nav__li" activeClassName='activeLink'>
                         {t('Home.nav.list2')}
-                    </NavLink>
+                    </Link>
                 </li>
             </ul>
             <div className="LangSelector-box" key ={language}>
@@ -71,13 +69,13 @@ function Nav() {
                     <option value="ko" >조선어</option>
                 </select>
             </div>
-            <ToggleButton click={toggleHandler}/>
+            <button className="toggle-button" onClick={toggleHandler}>
+                <div className="toggle-button-line"/>
+                <div className="toggle-button-line"/>
+                <div className="toggle-button-line"/>
+            </button>
             <SideBar show={isToggleOpen}/>
-            {isToggleOpen &&
-                <>
-                    <Backdrop click={backHandler}/>
-                </>
-            }
+            {isToggleOpen && <div className="backdrop" onClick={backHandler}/>}
         </div>
     )
 }

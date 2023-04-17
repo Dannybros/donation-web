@@ -1,10 +1,10 @@
 import React from 'react'
 import './Item.scss'
-import {useHistory} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {useTranslation} from "react-i18next";
 
 function Item({img, title, des, goal, current, id}) {
-    const history = useHistory();
+    const navigate = useNavigate();
 
     let percentage = parseInt(current/goal * 100)
     
@@ -19,12 +19,8 @@ function Item({img, title, des, goal, current, id}) {
     }
 
     const goBlog =()=>{
-        history.push(`/postblog/${id}`);
+        navigate(`/project/${id}`);
     }
-
-    // const goDonation =()=>{
-    //     history.push('/donation?ie9000');
-    // }
 
     return (
         <div className="box__item">
@@ -38,11 +34,6 @@ function Item({img, title, des, goal, current, id}) {
                 </div>
             </div>
             <div className="itemGoal_percentage">
-                <div className="progress-bar">
-                    <div className="progress-line" style={{width:`${percentage}%`}}/>
-                </div>
-                
-                <div className="progress-teller" style={{marginLeft:`calc(${percentage}% - 20px)`}}>{percentage}%</div>
                 {/* <div className="goal__target">
                     <h3>
                         {t('Donation.item.current')}

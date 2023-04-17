@@ -69,7 +69,7 @@
             "view2":"View Others",
             "view3":"Views",
             "donors":"Donors",
-            "BBD":"Created {{date}} days ago",
+            "BBD":"Created on {{date}}",
             "report":"raised ${{reach}} out of ${{goal}}"
         },
         "donatePage":{
@@ -129,5 +129,6 @@
         "benefit_3":"publication of Donor's names",
         "benefit_3_bullet_1":"To those who donate more than a certain amount, the Foundation introduces and advertises the donors on the Internet homepage, TV broadcast, newspapers, and magazines according to their wishes.",
         "contactEmail":"(*) For more information, please contact us with via {{email}}"
-    }
+    },
+    "Search":"Search"
 }

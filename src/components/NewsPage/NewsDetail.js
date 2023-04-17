@@ -1,27 +1,30 @@
-import React, {useEffect} from 'react'   
-import './NewsDetail.css'
-import {Row, Col} from 'react-bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import { useStateValue } from '../../Reducer/StateProvider';
-import {useParams, useHistory} from 'react-router-dom';
+import React, {useEffect, useState} from 'react'   
+import './News.css'
+import {Container} from 'react-bootstrap';
+import {useParams, useNavigate} from 'react-router-dom';
 import axios from '../../axios/axios'
 import { useTranslation } from 'react-i18next';
 import {Helmet} from 'react-helmet-async'
 
 function NewsDetail() {
 
-    const history = useHistory();
-
+    const navigate = useNavigate();
     const {i18n} = useTranslation();
-    
-    const [{news}] = useStateValue();
-    
     const {id} = useParams();
+    const [data, setData]  = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          await axios.get(`/news/getOne/${id}`)
+          .then(res=>setData(res.data[0]))
+          .catch(err=>{
+            err.response.status===404 ? navigate("/404") : navigate(-1)
+          });
+        };
     
-    const document = news.find((item)=>item._id===id);
-    const index = news.findIndex((item)=>item._id === id);
-    const newsContent = document?.content
-    
+        fetchData();
+    }, [id, navigate])
+        
     useEffect(() => {
         window.scrollTo(0, 0);
 
@@ -29,94 +32,48 @@ function NewsDetail() {
         .then(console.log('saved'))
         .catch(err=>console.log(err))
     }, [id])
+   
+    function textIntoSentences(data) {
+        return data.split(/[.!?。]+/).map(sentence => sentence.trim()).filter(sentence => sentence !== "").map(sentence => sentence + ".");
+    }
+      
+    function DivideSentences() {
+        const sentences = textIntoSentences(data.content[i18n.language]);
+        const numImages = data.img.length;
+        let sentencesPerParagraph = Math.ceil(sentences.length / (numImages + 1));
+        
+        let paragraphs = [];
+        for (let i = 0; i < sentences.length; i += sentencesPerParagraph) {
+            paragraphs.push(sentences.slice(i, i + sentencesPerParagraph));
+        }
     
-    const prevPage = ()=>{
-        const new_index = index-1;
-        if(new_index<= -1){
-            alert('this is the last page')
-        }else{
-            
-            const newId = news[new_index]._id;
-            history.push(`/news/detail/${newId}`)
-        }
-    }
+        return (
+          <section className='mt-3'>
+          {paragraphs.map((paragraph, index) => (
+            <main key={index} className="news_details">
+              <p>
+              {paragraph.map(sentence => (
+                <span key={sentence}>{sentence} </span>
+              ))}
+              </p>
+              {index < numImages && <img src={data.img[index]} alt={`img${index}`}/>}
+            </main>
+          ))}
+          </section>
+        );
+      }
 
-    const nextPage=()=>{
-        const new_index = index+1;
-        if(new_index>= news.length){
-            alert('this is the newest page')
-        }else{
-            const newId = news[new_index]._id;
-            history.push(`/news/detail/${newId}`)
-        }
-
-    }
-
-    const TextFormat =()=>{
-        const lang = i18n.language;
-
-        let content =""
-        if(i18n.language==="zh"){
-
-            const contentComma =newsContent?.zh.replace(/，/ig, `,`)
-            content = contentComma.replace(/。/ig, '.')
-        }else{
-            content =newsContent?.[lang]
-        }
-
-        const para =content?.match(/([^\\.!\\?]+[\\.!\\?]+)|([^\\.!\\?]+$)/g);
-        const paraLength = para?.length;
-
-        const section = Math.ceil(paraLength/20)
-
-        let array =[];
-        for(let i=0; i<section; i++){
-            array.push(
-                <p key={i}>
-                    {Array(20).fill().map((_, idx)=>(
-                        <span key={idx}>
-                            {para[i*20 + idx]}
-                        </span>
-                    ))} 
-                </p>
-            )
-        }
-
-        return(
-            <div className='news___content'>
-                {array}
-            </div>
-        )
+    if (data.length<=0) {
+        return <div>Loading...</div>;
     }
 
     return (
-        <div className="news_detail_page">
-            <Helmet>
-                <title>News Blog - {id}</title>
-            </Helmet>
-            <div className="news_detail_top">
-                <h2>
-                    <b>
-                    {document?.title[i18n.language]}
-                    </b>
-                </h2>
-            </div>
-            <div className="news_detail___section">
-                <p className="news___date">({document?.date.split('T')[0]})</p>
-                <TextFormat/>
-                <Row>
-                    {document?.img.map((item)=>{
-                        return(
-                            <Col lg={4} md={6} xs={12} key={item}>
-                                <img src={item} alt=""/>
-                            </Col>
-                        )
-                    })}
-                </Row>
-            </div>
-            <div className="goOtherPage left" onClick={prevPage}><b>«</b></div>
-            <div className="goOtherPage right" onClick={nextPage}><b>»</b></div>
-        </div>
+        <Container className="py-5">
+            <Helmet> <title>News Blog </title> </Helmet>
+            <h2 className='mb-3 text-bold'>{data.title[i18n.language]}</h2>
+            <span className='news_card_span mx-2'>{data.date.split("T")[0]}</span>
+            <DivideSentences/>
+        </Container>
     )
 }
 
