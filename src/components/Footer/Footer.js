@@ -11,10 +11,7 @@ import { useStateValue } from '../../Reducer/StateProvider';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import TwitterIcon from '@mui/icons-material/Twitter';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
 import YouTubeIcon from '@mui/icons-material/YouTube';
-import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
-import EmailIcon from '@mui/icons-material/Email';
 
 function Footer() {
 
@@ -42,7 +39,7 @@ function Footer() {
         <div className="footer" id="section__contact">
             <Container fluid>
                <Row>
-                    <Col lg={4} md={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
+                    <Col lg={6} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
                         <section className="section_left">
                             <img src={logo} alt=""/>
                             <p>
@@ -56,26 +53,7 @@ function Footer() {
                             </div>
                         </section>
                     </Col>
-                    <Col lg={4} md={6} style={{marginBottom:'12px', borderBottom:'1px solid white'}}> 
-                        <section className="section_middle">
-                            <p> {t('Footer.contact.title')}</p>
-                            <ul>
-                                <li>
-                                    <LocalPhoneIcon/>
-                                    <span> {t('Footer.contact.list1')} </span> 
-                                </li>
-                                <li>
-                                    <EmailIcon/>
-                                    <span> {t('Footer.contact.list2')} </span> 
-                                </li>
-                                <li>
-                                    <LocationOnIcon/>
-                                    <span> {t('Footer.contact.list3')} </span> 
-                                </li>
-                            </ul>
-                        </section>
-                    </Col>
-                    <Col lg={4} md={6} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
+                    <Col lg={6} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
                         <section className="section_right">
                             <p>{t('Footer.TopNews.title')}</p>
                             <ul>

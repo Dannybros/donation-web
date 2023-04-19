@@ -1,5 +1,7 @@
 import React from 'react'
-import QR from '../../img/QR.jpg'
+import telegram from '../../img/telegram.jpg'
+import wechat from '../../img/wechat.jpg'
+import whatsapp from '../../img/whatsapp.jpg'
 import { Modal} from 'react-bootstrap'
 import './Donation.scss'
 
@@ -20,20 +22,16 @@ function Donation(props) {
         </Modal.Header>
         <Modal.Body className='img_group'>
             <div className='img_box'>
-                <p>Telegram</p>
-                <img src={QR} className="QR_IMG" alt="qr"/>
+                <p className='mb-0'>Telegram</p>
+                <img src={telegram} className="QR_IMG" alt="qr"/>
             </div>
             <div className='img_box'>
-                <p>Telegram</p>
-                <img src={QR} className="QR_IMG" alt="qr"/>
+                <p className='mb-0'>Whatsapp</p>
+                <img src={wechat} className="QR_IMG" alt="qr"/>
             </div>
             <div className='img_box'>
-                <p>Telegram</p>
-                <img src={QR} className="QR_IMG" alt="qr"/>
-            </div>
-            <div className='img_box'>
-                <p>Telegram</p>
-                <img src={QR} className="QR_IMG" alt="qr"/>
+                <p className='mb-0'>Wechat</p>
+                <img src={whatsapp} className="QR_IMG" alt="qr"/>
             </div>
         </Modal.Body>
     </Modal>
