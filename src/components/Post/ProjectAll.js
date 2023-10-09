@@ -53,7 +53,7 @@ function DonationPage() {
 
             <div className="discover-content-section">
                 <main className="donate__all__section">
-                    <h1>
+                    <h1 className='mb-3'>
                         {t('Donation.pageAll.title')}
                     </h1>
                     <figure className='overall___content'>

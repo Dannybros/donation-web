@@ -7,12 +7,6 @@ import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
 import { useStateValue } from '../../Reducer/StateProvider';
 
-//icons
-import FacebookIcon from '@mui/icons-material/Facebook';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import YouTubeIcon from '@mui/icons-material/YouTube';
-
 function Footer() {
 
     const navigate = useNavigate();
@@ -39,21 +33,15 @@ function Footer() {
         <div className="footer" id="section__contact">
             <Container fluid>
                <Row>
-                    <Col lg={6} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
+                    <Col lg={8} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
                         <section className="section_left">
                             <img src={logo} alt=""/>
                             <p>
-                                {t('Footer.companyHeading')}
+                                {t('About_Us.tab1.para')}
                             </p>
-                            <div className="social_Icon">
-                            <FacebookIcon/>
-                            <InstagramIcon/>
-                            <TwitterIcon/>
-                            <YouTubeIcon/>
-                            </div>
                         </section>
                     </Col>
-                    <Col lg={6} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
+                    <Col lg={4} sm={12} style={{marginBottom:'12px', borderBottom:'1px solid white'}}>
                         <section className="section_right">
                             <p>{t('Footer.TopNews.title')}</p>
                             <ul>

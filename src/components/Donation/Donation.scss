@@ -12,8 +12,26 @@
     font-weight: bold;
   }
 }
+.contact-icons{
+  background-color: #fff;
+  border-radius: 50%;
+  padding: 10px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ddd;
+  margin-inline: 10px;
+  text-decoration: none;
+  color: black;
+  transform: all 1s linear;
+}
+.contact-icons:hover{
+  background-color: #fdfdfd;
+  color: rgb(3, 162, 255);
+}
 .QR_IMG{
-  width: 100%;
   aspect-ratio: 4/5;
   object-fit: contain;        
 }

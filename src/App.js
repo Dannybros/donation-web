@@ -30,7 +30,7 @@ function App() {
   
   return (
     <HelmetProvider>
-      <div className="App" style={{fontFamily:font}}>
+      <div className="position-relative" style={{fontFamily:font}}>
         <Nav/>
         <Routes>
           <Route path="/" element={<Home/>} />

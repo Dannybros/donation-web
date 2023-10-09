@@ -14,16 +14,18 @@
   }
   .section_left {
     height: 100%;
+    text-align: center;
     img {
-      width: 70%;
+      width: 50%;
       object-fit: contain;
       @media (max-width: 480px) {
         margin-bottom: 10px;
       }
     }
     p {
-      text-align: left;
+      text-align: justify;
       max-height: 200px;
+      margin-block: 10px;
     }
     .social_Icon {
       padding: 10px 0;

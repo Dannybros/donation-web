@@ -31,7 +31,7 @@ class Tabs extends Component {
     const tabb = localStorage.getItem('about')
 
     return (
-      <div className="tabs">
+      <div className="tabs container">
         <ul className="tab-list">
           {children.map((child) => {
             const { label } = child.props;

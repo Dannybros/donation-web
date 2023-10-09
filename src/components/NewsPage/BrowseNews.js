@@ -75,9 +75,9 @@ function BrowseNews() {
 
     return(
       <div className='news_highlight mt-2'>
-        <h1 onClick={()=>handleNewsClick("list/top")}>
-            {t('News.topNews')}
-        </h1>
+        <h3 className='pt-3 px-3 pb-2 border-bottom' onClick={()=>handleNewsClick("list/top")}>
+          {t('News.topNews')}
+        </h3>
         <ListGroup variant="flush">
           {sortedData.map((news)=>(
             <ListGroup.Item 
@@ -117,7 +117,7 @@ function BrowseNews() {
           </Col>
           <Col xs={12} md={4} lg={3}>
               <div className="sidebar" style={{ position: 'sticky', top: '100px' }}>
-              <TopNews/>
+                <TopNews/>
               </div>
           </Col>
       </Row>
